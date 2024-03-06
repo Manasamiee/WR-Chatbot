@@ -1,0 +1,29 @@
+/* General message styling */
+.message {
+  /* width: 30%; */
+  max-width: 85%;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 30px;
+  display: inline-block;
+  color: black;
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  font-size: 16px;
+  text-align: left;
+  overflow-x: hidden;
+
+}
+
+/* Styling for only chatgpt messages */
+.chatgpt {
+  background-color: #efefef;
+}
+
+/* Styling for only user messages */
+.user {
+  background-color:#b9e6e7;
+  
+}
+.Intro{
+  padding: 5px;
+}

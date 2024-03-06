@@ -1,0 +1,48 @@
+/* src/components/StepIndicator.css */
+
+.step-indicator-container {
+    height: 100%;
+    width: 20%; /* Keeps your width preference */
+    justify-content: space-between; /* Keeps your original spacing */
+    padding: 14px;
+    background-color: #f0f2f5; /* A light, neutral background color */
+   /*border-radius: 5px;  Adds rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%; /* Keeps the circular shape */
+    background-color: #d9d9d9; /* A neutral, uncompleted step color */
+    color: #333; /* Darker text for better readability */
+    text-align: center;
+    margin-top: 100px; /* Keeps your original top margin */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover and active states */
+}
+
+.step.completed {
+    background-color: #4CAF50; /* A professional, muted green for completed steps */
+    color: white; /* White text for contrast */
+}
+
+.step.current {
+    background-color: #007bff; /* A professional, muted blue for the current step */
+    color: white; /* White text for contrast */
+    transform: scale(1.5); /* Slightly enlarges the current step */
+    transition: 1s;
+}
+
+.message-separator {
+    height: 2px;
+    background: linear-gradient(to right, #f0f0f0, #7fedee, #f0f0f0);
+    margin: 20px 0;
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
+}
+
+

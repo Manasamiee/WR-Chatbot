@@ -1,0 +1,312 @@
+* {
+  box-sizing: border-box;
+  /*font-family: Arial, Helvetica, sans-serif;*/
+
+}
+
+.app {
+ background-color:whitesmoke;
+ position: fixed;
+}
+
+.wrapper {
+  background-color: white;
+  height: 100vh;
+  width: 70%;
+   /* margin: 0 auto;*/
+  /*    height: 700px;*/
+}
+
+.message-list {
+  height: 90.9vh;
+  width: 100%;
+  overflow-y: scroll;
+  position: relative;
+  /*height: 100%; */
+  padding: 40px;
+}
+
+.separator {
+  height: 0.1vh;
+  background-color: #D1DBE3;
+}
+
+.interaction-area {
+  height: 9vh;
+  width: 100%;
+  display: flex;
+  background-color: white;
+  padding: .6em .9em;
+}
+
+
+
+.input-wrapper {
+  width: 95%;
+  background-color: #C6E3FA;
+  /*border: red 1px solid;*/
+  border-radius:.7em;
+  margin-bottom: 5px;
+}
+input {
+  height: 100%;
+  width: 100%;
+  border: 0px;
+  cursor: text;
+  background-color: #b9e6e7;
+  border-radius:.7em;
+  outline: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  
+}
+.submit-wrapper {
+  width: 5%;
+  /*border: red 1px solid;*/
+
+}
+.SendIcon{
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out; /* Increase transition duration and use ease-in-out for smoother animation */
+  cursor: pointer;
+}
+
+
+
+.SendIcon svg{
+  width: 90%;
+  height: 52%;
+  padding: 10px;
+  color: #b9e6e7;
+}
+
+.textarea {
+  border: 1px solid #ccc;
+  /* font-family: inherit; */
+  /* font-size: inherit; */
+  padding: 1px 6px;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: both;
+  min-height: 40px;
+  line-height: 20px;
+  background-color: white;
+  border-radius: 20px;
+  resize: none;
+  border: 1px solid #ccc;
+  padding: 1px 6px;
+}
+
+.textarea[contenteditable]:empty::before {
+  content: "Placeholder still possible";
+  color: gray;
+}
+
+.btn-wrapper {
+  position: fixed;
+  top: 670px;
+  right: 30px;
+  width: 300px;
+  height: 60px;
+}
+
+.summary-wrapper {
+  position: fixed;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.summary-modal {
+  width: 600px;
+  height: 400px;
+  background-color: #b9e6e7;
+  padding: 20px;
+  border-radius:10px ;
+  font-size: 16px;
+  overflow-y: scroll;
+}
+
+.modal-button-wrapper {
+
+  text-align: right;
+  margin-top: 5%;
+  margin-right: 1%;
+}
+
+
+.GuideList{
+  position: fixed;
+  display: flex;
+  top: 20px;
+  right: 30px;
+  width: 300px;
+  height: 630px;
+  /*background-color: #F9F7C9;*/
+  border-radius: 25px;  
+}
+.all-guides {
+  font-size: 11px;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  /*gap: 20px;  Space between each guide */
+  padding: 5px;
+  background-color: #F9F7C9; /* Light background to make it stand out */
+  /*border-radius: 8px;  Soft rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 100%; /* Take full width of the container */
+  max-width: 600px; /* Adjust based on your layout, keeps it from getting too wide on larger screens */
+  height: 100%;
+}
+
+.guide-item {
+  height: 200px;
+  transition: transform 0.6s ease; /* Smooth transition for scaling */
+  padding: 15px 10px;
+  width: 100%;
+/*border-radius: 5px;  Optional: adds rounded corners */
+  background-color: #F9F7C9; /* Light background for each guide item */
+}
+
+.current-guide {
+  transform: scale(1.057);  /*Enlarges the current guide */
+  font-weight: bold; /* Makes the text of the current guide bolder */
+  background-color: #e0e0e0; /* Slightly different background for emphasis */
+  font-size: 12px;
+
+}
+
+
+.guide-title {
+  text-align: center;
+  font-size: 18px; /* larger font size for titles */
+  font-weight: bold; /* make titles bold */
+  color: #333; /* dark gray color */
+  margin-bottom: 5px; /* space between title and description */
+}
+
+/* Styles for the guide descriptions */
+.guide-description {
+  text-align: center;
+  font-size: 15px; /* smaller font size for descriptions */
+  color: #565656; /* lighter gray color */
+}
+
+.non-fading-separator {
+  position: relative;
+  height: 1px; /* Adjust thickness of the line */
+  background: linear-gradient(to right, #bfbfbf, #7fedee, #bfbfbf);
+  margin: 25px 0;
+  width: 100%;
+}
+
+.separator-text {
+  position: absolute;
+  top: -20px; /* Adjust based on your design */
+  left: 50%;
+  transform: translateX(-50%);
+  color: black; /* Match or complement the gradient colors */
+  background-color: #b9e6e7; /* Consider your app's background color */
+  border: 1px solid #b9e6e7; /* Optional: adds a border around the text */
+  border-radius: 10px; /* Optional: rounds the corners of the border */
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap; /* Keeps the text on one line */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: adds a subtle shadow */
+}
+
+.modal-submit-btn {
+  height: 100%;
+  width: 26%;
+  border-radius: 8px;
+  border: none;
+  color: black;
+  background-color: #F9F7C9;
+  font-size: 20px;
+  font-weight: 600;
+  box-shadow: 0px 8px 24px #747459;
+  text-align: center;
+  margin: 1%;
+  padding: 10px;
+}
+
+.modal-edit-btn {
+  height: 100%;
+  width: 30%;
+  border-radius: 8px;
+  border: none;
+  color: black;
+  background-color: #F9F7C9;
+  font-size: 20px;
+  font-weight: 600;
+  box-shadow: 0px 8px 24px #747459;
+  text-align: center;
+  padding: 10px;
+
+}
+
+.modal-text {
+  color: black;
+}
+.thank-you-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: whitesmoke;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
+.modal-content button{
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  margin: 10px 33%;
+  border-radius: 8px;
+  font-weight: 600;
+  color: black;
+  background-color: #F9F7C9;
+  /* box-shadow: 0px 5px 24px #747459; */
+}
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+}
+
+.loader img {
+  animation: spin 2s linear infinite;
+  width: 200px; 
+  height: 200px;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
