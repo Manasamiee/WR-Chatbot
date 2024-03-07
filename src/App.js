@@ -26,7 +26,7 @@ const summarySystemMessage = {
   };
 
 const initialMessage = {
-  message: ("Hi there! I'm here to help you get ready for your doctor's appointment. My specialties include:1- Helping you accurately recall and track pain episodes. 2- Assist in clearly articulating your pain for a better diagnosis.3- Informing you about various treatment options.Which of these three should we start with to feel more prepared for your upcoming doctor's visit?"
+  message: ("Hi there! I'm an AI chatbot created to help you get ready for your doctor's appointment. My specialties include:1- Helping you accurately recall and track pain episodes. 2- Assist in clearly articulating your pain for a better diagnosis.3- Informing you about various treatment options.Which of these three should we start with to feel more prepared for your upcoming doctor's visit?"
     ),
   sentTime: "just now",
   sender: "ChatGPT",
