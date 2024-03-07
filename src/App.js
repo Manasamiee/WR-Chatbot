@@ -33,7 +33,7 @@ const initialMessage = {
 };
 
 
-const useDummyData = false;
+const useDummyData = true;
 
 function App() {
   const [messages, setMessages] = useState([initialMessage]);
