@@ -109,9 +109,9 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(`old: `, messages)
+    // console.log(`old: `, messages)
     let newMessages = messages.slice(0, -1); 
-    console.log(`new: `, newMessages)
+    // console.log(`new: `, newMessages)
     setMessages(newMessages)
     processMessageToChatGPT(newMessages)
   }, [guideIndex])
@@ -198,7 +198,7 @@ function App() {
             messages: [summarySystemMessage, ...apiMessages],
         };
 
-        //console.log('api request body', apiRequestBody)
+        console.log('api request body', apiRequestBody)
 
         try {
             const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -215,7 +215,7 @@ function App() {
             }
 
             const data = await response.json();
-            //console.log(data)
+            console.log(data)
             
             setSummaryText(data.choices[0].message.content); // Update the summary text
             setShowSummary(true); // Show the summary part
