@@ -276,7 +276,7 @@ function App() {
   const InitialMessage = ({ }) => {
     return(
     <Message sender="ChatGPT">
-      Hi there! I'm an AI chatbot created to help you get ready for your doctor's appointment. Can you tell me about the pain you are experiencing?
+      Hi there! I'm here to help you get ready for your doctor's appointment. Can you tell me about the pain you are experiencing?
     </Message>
     )
     
