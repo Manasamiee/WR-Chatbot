@@ -22,7 +22,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const summarySystemMessage = {
   role: "system",
   content:
-    "Your task is to help paint the picture of an interaction. You do this by aggregating the most relevant aspects of the conversation. This includes the following: symptoms, medical history, current condition, emotions and fears and concerns, functioning in daily life, expectations and hopes and concerns for the future. You use those words as headlines, and provide extremely brief, up to three words, below each headline. REMEMBER TO end each summary with a period. The content for each headline must be collected by summarising the interaction between the two interactants. Remember that the summary readability is critical, as the reader of the summary is extremely time-pressured.",
+    "Your task is to help paint the picture of an interaction. You do this by aggregating the most relevant aspects of the conversation into four categories. These four categories include: Facts (symptoms, medical history, current condition), Feelings (emotions and feelings), Fears (fears and concerns, functioning in daily life), and Future (expectations, hopes, and concerns for the future). You use Facts, Feelings, Fears, and Future as headlines, and provide extremely brief, up to three words, below each headline. Always end each summary with a period. The content for each headline must be collected by summarising the interaction between the two interactants. Remember that the summary readability is critical, as the reader of the summary is extremely time-pressured.",
   };
 
 const initialMessage = {
