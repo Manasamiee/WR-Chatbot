@@ -178,7 +178,7 @@ input {
 }
 
 .current-guide {
-  transform: scale(1.04);  /*Enlarges the current guide */
+  transform: scale(1.047);  /*Enlarges the current guide */
   font-weight: bold; /* Makes the text of the current guide bolder */
   background-color: #e0e0e0; /* Slightly different background for emphasis */
   font-size: 12px;
