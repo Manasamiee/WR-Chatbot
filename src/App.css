@@ -46,7 +46,7 @@
   background-color: #C6E3FA;
   /*border: red 1px solid;*/
   border-radius:.7em;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 input {
   height: 100%;
@@ -63,7 +63,6 @@ input {
 .submit-wrapper {
   width: 5%;
   /*border: red 1px solid;*/
-
 }
 .SendIcon{
   width: 100%;
@@ -108,11 +107,10 @@ input {
 }
 
 .btn-wrapper {
-  position: fixed;
+  position:absolute;
   top: 670px;
-  right: 30px;
-  width: 300px;
-  height: 60px;
+  width: 100%;
+  height: 80px;
 }
 
 .summary-wrapper {
@@ -149,10 +147,9 @@ input {
 .GuideList{
   position: fixed;
   display: flex;
-  top: 20px;
-  right: 30px;
-  width: 300px;
-  height: 630px;
+  right: 0px;
+  width: 30%;
+  height: 670px;
   /*background-color: #F9F7C9;*/
   border-radius: 25px;  
 }
@@ -181,7 +178,7 @@ input {
 }
 
 .current-guide {
-  transform: scale(1.057);  /*Enlarges the current guide */
+  transform: scale(1.04);  /*Enlarges the current guide */
   font-weight: bold; /* Makes the text of the current guide bolder */
   background-color: #e0e0e0; /* Slightly different background for emphasis */
   font-size: 12px;
@@ -194,7 +191,7 @@ input {
   font-size: 18px; /* larger font size for titles */
   font-weight: bold; /* make titles bold */
   color: #333; /* dark gray color */
-  margin-bottom: 5px; /* space between title and description */
+  margin-bottom: 30px; /* space between title and description */
 }
 
 /* Styles for the guide descriptions */
@@ -214,7 +211,7 @@ input {
 
 .separator-text {
   position: absolute;
-  top: -20px; /* Adjust based on your design */
+  top: -15px; /* Adjust based on your design */
   left: 50%;
   transform: translateX(-50%);
   color: black; /* Match or complement the gradient colors */
