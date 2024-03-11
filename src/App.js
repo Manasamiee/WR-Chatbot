@@ -291,7 +291,7 @@ function App() {
   const InitialMessage = ({ }) => {
     return (
       <Message sender="ChatGPT">
-        Hi. My task is to prepare you for your doctor visit. This will involve four phases. In each phase, take your time to answer the questions asked. When you feel you have nothing more to share, press Next Button. Let's start: Can you describe the pain you're experiencing?
+        Hi! My task is to prepare you for your doctor visit. This will involve four phases. In each phase, take your time to answer the questions asked. When you feel you have nothing more to share, press Next Button. Let's start: Can you describe the pain you're experiencing?
 </Message>
     )
 
