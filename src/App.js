@@ -34,7 +34,7 @@ const initialMessage = {
 
 const pre_messages = [
   "Next, can you try describing how do you feel about your pain?",
-  "Please describe what fears and\or concerns you can relate to your pain.",
+  "Please describe what fears or concerns you can relate to your pain.",
   "Lastly, please describe your ideas for treatment and any particular outcomes you hope to achieve. When you are finished, click the 'Summarise' button when you are ready to wrap up the conversation."
 ]
 
