@@ -23,17 +23,24 @@ const summarySystemMessage = {
   role: "system",
   content:
     "Your task is to help paint the picture of an interaction. You do this by aggregating the most relevant aspects of the conversation into four categories. These four categories include: Facts (symptoms, medical history, current condition), Feelings (emotions and feelings), Fears (fears, concerns, and functioning in daily life), and Future (expectations, hopes, and concerns for the future). You use Facts, Feelings, Fears, and Future as headlines, and provide extremely brief, up to three words, below each headline. The content for each headline must be collected by summarising the interaction between the two interactants. Remember that the summary readability is critical, as the reader of the summary is extremely time-pressured. Always end each summary with the period punctuation mark.",
-  };
+};
 
 const initialMessage = {
   message: ("Hi there! I'm an AI chatbot created to help you get ready for your doctor's appointment. My specialties include:1- Helping you accurately recall and track pain episodes. 2- Assist in clearly articulating your pain for a better diagnosis.3- Informing you about various treatment options.Which of these three should we start with to feel more prepared for your upcoming doctor's visit?"
-    ),
+  ),
   sentTime: "just now",
   sender: "ChatGPT",
 };
 
+const pre_messages = [
+  "Next, can you try describing how do you feel about your pain?",
+  "Please describe what fears and\or concerns you can relate to your pain.",
+  "Lastly, please describe your ideas for treatment and any particular outcomes you hope to achieve. When you are finished, click the 'Summarise' button when you are ready to wrap up the conversation."
+]
 
-const useDummyData = false;
+
+
+const useDummyData = true;
 
 function App() {
   const [messages, setMessages] = useState([initialMessage]);
@@ -47,7 +54,7 @@ function App() {
   const [guideIndex, setGuideIndex] = useState(0);
   const [separatorIndices, setSeparatorIndices] = useState([]);
 
-  
+
   const ThankYouModal = () => (
     <div className="thank-you-modal">
       <div className="modal-content">
@@ -61,9 +68,9 @@ function App() {
 
   useEffect(() => {
     scrollToBottom();
-     if (inputRef.current) {
-    inputRef.current.focus();
-  }
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [messages]);
 
   const sendMessage = async () => {
@@ -85,17 +92,32 @@ function App() {
 
   const nextGuide = () => {
     let currentGuideIndex = guideIndex;
-    if (currentGuideIndex < 3) { // Assuming there are 3 guides
-        // Update separator indices to include the new position and the current guide index
-        const newSeparatorIndices = [...separatorIndices, { index: messages.length - 1, phase: currentGuideIndex + 1 }];
-        setSeparatorIndices(newSeparatorIndices);
+    let currentMessages = messages
 
-        // Move to the next guide
-        setGuideIndex(currentGuideIndex + 1);
+    if (currentGuideIndex < 3) { // Assuming there are 3 guides
+      // Update separator indices to include the new position and the current guide index
+      const newSeparatorIndices = [...separatorIndices, { index: messages.length - 1, phase: currentGuideIndex + 1 }];
+      setSeparatorIndices(newSeparatorIndices);
+
+      currentMessages = currentMessages.slice(0, -1);      
+
+      currentMessages.push(
+        {
+          message: pre_messages[guideIndex],
+          sender: "ChatGPT",
+        }
+      )
+
+      console.log(currentMessages)
+
+      setMessages(currentMessages)
+
+      // Move to the next guide
+      setGuideIndex(currentGuideIndex + 1);
     } else {
-        console.log("Reached the end of the guides.");
+      console.log("Reached the end of the guides.");
     }
-};
+  };
 
 
 
@@ -110,10 +132,10 @@ function App() {
 
   useEffect(() => {
     // console.log(`old: `, messages)
-    let newMessages = messages.slice(0, -1); 
+    //let newMessages = messages //.slice(0, -1);
     // console.log(`new: `, newMessages)
-    setMessages(newMessages)
-    processMessageToChatGPT(newMessages)
+    //setMessages(newMessages)
+    //processMessageToChatGPT(newMessages)
   }, [guideIndex])
 
   const processMessageToChatGPT = async (chatMessages) => {
@@ -131,13 +153,13 @@ function App() {
       role: "system",
       content: topics[guideIndex]
     };
-    
+
     const apiRequestBody = {
       model: "gpt-4",
       messages: [newSystemMessage, ...apiMessages],
     };
 
-    console.log(apiRequestBody)
+    //console.log(apiRequestBody)
 
     if (useDummyData) {
       setMessages([
@@ -161,7 +183,7 @@ function App() {
           return data.json();
         })
         .then((data) => {
-         // console.log(data);
+          // console.log(data);
           setMessages([
             ...chatMessages,
             {
@@ -177,7 +199,7 @@ function App() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
- 
+
   const summarise = async () => {
     // console.log('Summarise function started');
 
@@ -185,63 +207,56 @@ function App() {
 
     // Check if there are more guides to display
     if (guideIndex < guides.length - 1) { // Adjusted to check against guides.length - 1
-        setGuideIndex(guideIndex + 1); // Move to the next guide
+      setGuideIndex(guideIndex + 1); // Move to the next guide
     } else {
-        // If no more guides, proceed with summarization
-        let apiMessages = messages.map((messageObject) => {
-            let role = messageObject.sender === "ChatGPT" ? "assistant" : "user";
-            return { role: role, content: messageObject.message };
+      // If no more guides, proceed with summarization
+      let apiMessages = messages.map((messageObject) => {
+        let role = messageObject.sender === "ChatGPT" ? "assistant" : "user";
+        return { role: role, content: messageObject.message };
+      });
+
+      const apiRequestBody = {
+        model: "gpt-4",
+        messages: [summarySystemMessage, ...apiMessages],
+      };
+
+      console.log('api request body', apiRequestBody)
+
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiRequestBody),
         });
 
-        const apiRequestBody = {
-            model: "gpt-4",
-            messages: [summarySystemMessage, ...apiMessages],
-        };
-
-        console.log('api request body', apiRequestBody)
-
-        try {
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    Authorization: "Bearer " + API_KEY,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(apiRequestBody),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log(data)
-            
-            setSummaryText(data.choices[0].message.content); // Update the summary text
-            setShowSummary(true); // Show the summary part
-        } catch (error) {
-            console.error('Error:', error);
-            // Handle the error state appropriately
-        } finally {
-            setIsLoading(false); // Stop loading whether there is an error or not
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
+
+        const data = await response.json();
+        console.log(data)
+
+        setSummaryText(data.choices[0].message.content); // Update the summary text
+        setShowSummary(true); // Show the summary part
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle the error state appropriately
+      } finally {
+        setIsLoading(false); // Stop loading whether there is an error or not
+      }
     }
-};
+  };
 
   const Loader = () => (
     <div className="loader">
-    <img src="/pngwing.com.png" alt="Loading..." />
+      <img src="/pngwing.com.png" alt="Loading..." />
     </div>
   );
-  
+
   const SummaryModal = ({ }) => {
-
-
-   // console.log(
-    //  {
-    //    "splitted":summaryText.split("."),
-    //    "sliced": summaryText.split(".").slice(0, -1)
-    //  })
     const handleSubmit = () => {
       setShowSummary(false);
       setShowThankYouModal(true);
@@ -270,16 +285,16 @@ function App() {
         </div>
       </div>
     );
-    
+
   };
 
   const InitialMessage = ({ }) => {
-    return(
-    <Message sender="ChatGPT">
-      Hi there! I'm here to help you get ready for your doctor's appointment. Can you tell me about the pain you are experiencing?
-    </Message>
+    return (
+      <Message sender="ChatGPT">
+        Hi. My task is to prepare you for your doctor visit. This will involve four phases. In each phase, take your time to answer the questions asked. When you feel you have nothing more to share, press Next Button. Let's start: Can you describe the pain you're experiencing?
+</Message>
     )
-    
+
   };
 
   return (
@@ -289,57 +304,57 @@ function App() {
       ) : (
         <>
 
-          <div className="btn-wrapper">
-          {guideIndex < 3 ? (
-        // Show 'Next' button for the first three guides
-        <NextButton action={nextGuide} />
-    ) : (
-        // Show 'Summarise' button for the fourth guide
-        <SummariserButton action={summarise} />
-    )}          
-    </div>
           {showSummary && <SummaryModal />}
           {showThankYouModal && <ThankYouModal />}
 
           <div className="GuideList">
-          <StepIndicator currentStep={guideIndex} totalSteps={guides.length} />
-          <div className="all-guides">
-           {guides.map((guide, index) => (
-            <div 
-            key={index} 
-            className={`guide-item ${index === guideIndex ? 'current-guide' : ''}`}
-          >
-        <div className="guide-title">{guide.title}</div> {/* This line is new */}
-        {index === guideIndex ? <div className="guide-description">{guide.description}</div> : null}
-      </div>
-    ))}
-  </div>
-</div>
-
-          <div className="wrapper">
-          <div className="message-list">
-          <InitialMessage />
-    
-          {messages.slice(1).map((m, i) => (
-    <React.Fragment key={i}>
-      
-
-        {/* Render the message itself */}
-         {/* Check for and render a phase-ending separator */}
-         {separatorIndices.find(si => si.index === i + 1) && (
-            <div className="non-fading-separator">
-                <div className="separator-text">End of Phase {separatorIndices.find(si => si.index === i + 1).phase}</div>
+            <StepIndicator currentStep={guideIndex} totalSteps={guides.length} />
+            <div className="all-guides">
+              {guides.map((guide, index) => (
+                <div
+                  key={index}
+                  className={`guide-item ${index === guideIndex ? 'current-guide' : ''}`}
+                >
+                  <div className="guide-title">{guide.title}</div> {/* This line is new */}
+                  {index === guideIndex ? <div className="guide-description">{guide.description}</div> : null}
+                </div>
+              ))}
             </div>
-        )}
-          {/* Check for and conditionally render a separator before every GPT message */}
-          {m.sender === 'ChatGPT' && <div className="message-separator"></div>}
-        <Message sender={m.sender}>{m.message}</Message>
-    </React.Fragment>
-))}
-              <div ref={messagesEndRef} />
+
+            <div className="btn-wrapper">
+              {guideIndex < 3 ? (
+                // Show 'Next' button for the first three guides
+                <NextButton action={nextGuide} />
+              ) : (
+                // Show 'Summarise' button for the fourth guide
+                <SummariserButton action={summarise} />
+              )}
+            </div>
           </div>
 
-           <div className="separator" />
+          <div className="wrapper">
+            <div className="message-list">
+              <InitialMessage />
+
+              {messages.slice(1).map((m, i) => (
+                <React.Fragment key={i}>
+
+
+                  {/* Render the message itself */}
+                  {/* Check for and render a phase-ending separator */}
+                  {separatorIndices.find(si => si.index === i + 1) && (
+                    <div className="non-fading-separator">
+                      <div className="separator-text">End of Phase {separatorIndices.find(si => si.index === i + 1).phase}</div>
+                    </div>
+                  )}
+                  {/* Check for and conditionally render a separator before every GPT message */}
+                  {m.sender === 'ChatGPT' && <div className="message-separator"></div>}
+                  <Message sender={m.sender}>{m.message}</Message>
+                </React.Fragment>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className="separator" />
             <div className="interaction-area">
               <div className="status">
                 <StatusIndicator isActive={isTyping} />
@@ -356,16 +371,16 @@ function App() {
                 <div className="SendIcon" onClick={sendMessage}>
                   <FontAwesomeIcon icon={faPaperPlane} />
                 </div>
-                
+
               </div>
-             
+
             </div>
           </div>
         </>
       )}
     </div>
   );
-  
+
 }
 
 export default App;
