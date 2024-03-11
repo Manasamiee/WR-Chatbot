@@ -40,7 +40,7 @@ const pre_messages = [
 
 
 
-const useDummyData = true;
+const useDummyData = false;
 
 function App() {
   const [messages, setMessages] = useState([initialMessage]);
