@@ -22,7 +22,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const summarySystemMessage = {
   role: "system",
   content:
-    "Your task is to help paint the picture of an interaction, by aggregating the most relevant aspects in 3 or 4 sentences at max. In this task, you focus on the following in {{}}{{((You do this by summarising the interaction between the two interactants.))((You must assess the whole conversation.))((You focus on information that relates to memory of pain episodes, descriptions of pain episodes, and treatment options discussed.))}} REMEMBER to always call them patients and not users.",
+    "Your task is to help paint the picture of an interaction, by aggregating the most relevant aspects in 3 or 4 sentences at max. Always end each summary with the period punctuation mark. In this task, you focus on the following in {{}}{{((You do this by summarising the interaction between the two interactants.))((You must assess the whole conversation.))((You focus on information that relates to memory of pain episodes, descriptions of pain episodes, and treatment options discussed.))}} REMEMBER to always call them patients and not users.",
 };
 
 const initialMessage = {
