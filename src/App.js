@@ -24,7 +24,7 @@ const API_keyy = process.env.REACT_APP_API_keyy;
 const summarySystemMessage = {
   role: "system",
   content:
-    "Summarize this conversation into four categories: Facts (symptoms, medical history, current condition), Feelings (emotions and feelings), Fears (fears, concerns, and functioning in daily life), and Future (expectations, hopes, and concerns for the future). Your response HAS to include each of the four titles: Facts, Feelings, Fears, and Future. For each title, provide a very short summary. You always end each category with a punctuation mark. If there is no relevant user response for any particular category, you write “N/A.”. Here is an example of the expected output: Facts: Back pain for two weeks, pain is constant. Feelings: Feels incapable. Fears: Won't recover, ability to work is affected. Future: Prefers surgery, and seeks full pain relief.",
+    "Summarize this conversation into four categories: Facts (symptoms, medical history, current condition), Feelings (emotions and feelings), Fears (fears, concerns, and functioning in daily life), and Future (expectations, hopes, and concerns for the future). Your response HAS to include each of the four titles: Facts, Feelings, Fears, and Future. For each title, provide a very short summary up to three words. You always end each category with a punctuation mark. If there is no relevant user response for any particular category, you write “N/A.”. Here is an example of the expected output: Facts: Back pain for two weeks, pain is constant. Feelings: Feels incapable. Fears: Won't recover, ability to work is affected. Future: Prefers surgery, and seeks full pain relief.",
 };
 
 const initialMessage = {
