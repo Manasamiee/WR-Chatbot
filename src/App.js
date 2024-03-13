@@ -13,6 +13,8 @@ import StepIndicator from './components/StepIndicator/StepIndicator.js'; // Adju
 
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+const API_keyy = process.env.REACT_APP_API_keyy;
+
 // const systemMessage = {
 //   role: "system",
 //   content:
@@ -22,7 +24,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const summarySystemMessage = {
   role: "system",
   content:
-    "Your task is to help paint the picture of an interaction, by aggregating the most relevant aspects in 3 or 4 sentences at max. Always end each summary with the period punctuation mark. In this task, you focus on the following in {{}}{{((You do this by summarising the interaction between the two interactants.))((You must assess the whole conversation.))((You focus on information that relates to memory of pain episodes, descriptions of pain episodes, and treatment options discussed.))}} REMEMBER to always call them patients and not users.",
+    "Summarize this conversation into four categories: Facts (symptoms, medical history, current condition), Feelings (emotions and feelings), Fears (fears, concerns, and functioning in daily life), and Future (expectations, hopes, and concerns for the future). Your response HAS to include each of the four titles: Facts, Feelings, Fears, and Future. For each title, provide a very short summary. You always end each category with a punctuation mark. If there is no relevant user response for any particular category, you write “N/A.”. Here is an example of the expected output: Facts: Back pain for two weeks, pain is constant. Feelings: Feels incapable. Fears: Won't recover, ability to work is affected. Future: Prefers surgery, and seeks full pain relief.",
 };
 
 const initialMessage = {
@@ -108,7 +110,7 @@ function App() {
         }
       )
 
-      console.log(currentMessages)
+      //console.log(currentMessages)
 
       setMessages(currentMessages)
 
@@ -157,6 +159,8 @@ function App() {
     const apiRequestBody = {
       model: "gpt-4",
       messages: [newSystemMessage, ...apiMessages],
+      temperature: 0.2,
+
     };
 
     //console.log(apiRequestBody)
@@ -200,55 +204,64 @@ function App() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const summarise = async () => {
-    // console.log('Summarise function started');
+  
 
+  const summarise = async () => {
     setIsLoading(true); // Start loading before API call
 
     // Check if there are more guides to display
-    if (guideIndex < guides.length - 1) { // Adjusted to check against guides.length - 1
-      setGuideIndex(guideIndex + 1); // Move to the next guide
+    if (guideIndex < guides.length - 1) {
+        setGuideIndex(guideIndex + 1); // Move to the next guide
     } else {
-      // If no more guides, proceed with summarization
-      let apiMessages = messages.map((messageObject) => {
-        let role = messageObject.sender === "ChatGPT" ? "assistant" : "user";
-        return { role: role, content: messageObject.message };
-      });
+        // If no more guides, proceed with summarization
+        // Extract only messages sent by the user
+        let userMessages = messages
+            .filter((messageObject) => messageObject.sender === 'user')
+            .map((messageObject) => ({ role: 'user', content: messageObject.message }));
 
-      const apiRequestBody = {
-        model: "gpt-4",
-        messages: [summarySystemMessage, ...apiMessages],
-      };
+        const apiRequestBody = {
+            model: "gpt-4",
+            messages: [
+                summarySystemMessage, // System message providing instructions for the AI
+                ...userMessages // Only include user messages here
+            ],
+            temperature: 0,
+        };
 
-      console.log('api request body', apiRequestBody)
+        //console.log('API request body:', (apiRequestBody));
 
-      try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + API_KEY,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(apiRequestBody),
-        });
+        try {
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + API_keyy,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(apiRequestBody),
+            });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+            if (!response.ok) {
+                const errorBody = await response.text(); // Convert response body to text for more detail
+                throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            // Update the summary text with the content from the first choice
+            setSummaryText(data.choices[0].message.content);
+            setShowSummary(true); // Show the summary part
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setIsLoading(false); // Stop loading whether there is an error or not
         }
-
-        const data = await response.json();
-        console.log(data)
-
-        setSummaryText(data.choices[0].message.content); // Update the summary text
-        setShowSummary(true); // Show the summary part
-      } catch (error) {
-        console.error('Error:', error);
-        // Handle the error state appropriately
-      } finally {
-        setIsLoading(false); // Stop loading whether there is an error or not
-      }
     }
-  };
+};
+
+
+
+
 
   const Loader = () => (
     <div className="loader">
